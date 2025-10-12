@@ -111,15 +111,10 @@ Phase1_Group20/
 
 ```bash
 cd "C:\Users\Hp\Desktop\Phase1-Grp20\scripts"
-python phase1_group20.py
+python codefile.py
 ```
 
 3. `cleaned_dataset.csv` will be generated in the `data/` folder for Phase 2 analysis.
 
 ---
 
-
-
-
-Do you want me to do that?
-```
