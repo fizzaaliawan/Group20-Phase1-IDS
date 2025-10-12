@@ -1,34 +1,69 @@
 
 # Phase 1 – Remote Work & Urban Traffic Reduction (Group 20)
 
-## Project Overview
-This project focuses on analyzing the impact of **remote work on urban traffic congestion** across major Pakistani cities. The aim is to prepare a clean and structured dataset for further exploratory data analysis (Phase 2) and visualization.  
-
-The project is part of **Phase 1 of the Data Science Lifecycle** and covers **data importing, cleaning, and transformation**.
+This project focuses on analyzing how **remote work adoption affects urban traffic congestion** across major Pakistani cities. The goal is to create a clean and structured dataset for **further analysis and visualization** in Phase 2.
 
 ---
 
-## Dataset Description
-- **Traffic Dataset (`traffic_raw.csv`)**: Contains city-level traffic congestion data (pre- and post-remote work) for 2019–2023.  
-- **Remote Work Dataset (`remotework_raw.csv`)**: Contains city-level remote work share (%) and average commute time saved (minutes) for the same period.  
-- **Cities Covered**: Islamabad, Lahore, Karachi, Faisalabad, Peshawar  
-- **Data Source**: Simulated realistic datasets based on TomTom Traffic Index and national remote work surveys.  
+## Project Details
+
+* **Language:** R
+* **Datasets:**
+
+  * `traffic_raw.csv` – City-level traffic congestion (pre- and post-remote work)
+  * `remotework_raw.csv` – Remote work share (%) and average commute time saved (minutes)
+    
+* **Goal:** To understand how remote work influences traffic reduction and productivity in urban cities.
 
 ---
 
-## Data Cleaning Steps
-1. Checked for missing values and replaced them with **mean** (for congestion data) or **0** (for remote work data).  
-2. Removed duplicates (none found).  
-3. Standardized city names and numeric formats.  
+## Dataset Overview
+
+The datasets include traffic congestion and remote work data for 2019–2023. The cities covered are Islamabad, Lahore, Karachi, Faisalabad, and Peshawar.
+
+**Traffic Dataset (`traffic_raw.csv`)**:
+
+* `city` – City name
+* `year` – Year of observation
+* `pre_remote_congestion` – Traffic congestion index before remote work (%)
+* `post_remote_congestion` – Traffic congestion index after remote work (%)
+* `congestion_index` – Overall congestion measure
+
+**Remote Work Dataset (`remotework_raw.csv`)**:
+
+* `city` – City name
+* `year` – Year of observation
+* `remote_work_share` – Percentage of workforce working remotely
+* `avg_commute_time_saved` – Average commute time saved (minutes)
+
+*Note: Data is simulated realistically based on TomTom Traffic Index and national remote work surveys.*
 
 ---
 
-## Data Transformation Steps
-1. **Merged datasets** on `city` and `year`.  
+## Analysis Breakdown
+
+### Step 1: Data Importing
+
+* Used `readr::read_csv()` to import both datasets into R.
+* Checked column types and first few rows with `head()` and `str()`.
+
+### Step 2: Data Cleaning
+
+* Checked for missing values using `colSums(is.na())` and replaced them:
+
+  * Missing traffic data → replaced with column mean
+  * Missing remote work data → replaced with 0
+* Removed duplicate rows (none found).
+* Standardized city names and numeric formats.
+
+### Step 3: Data Transformation
+
+1. **Merged datasets** on `city` and `year` using `dplyr::inner_join()`.
 2. **Traffic Reduction Percentage**:
+
 ```r
 traffic_reduction_percent = ((pre_remote_congestion - post_remote_congestion) / pre_remote_congestion) * 100
-````
+```
 
 3. **Productivity Ratio**:
 
@@ -36,14 +71,28 @@ traffic_reduction_percent = ((pre_remote_congestion - post_remote_congestion) / 
 productivity_ratio = remote_work_share * avg_commute_time_saved
 ```
 
-4. **Comparison Index**: Normalized traffic reduction (0–1 scale):
+4. **Comparison Index (Normalized 0–1 scale)**:
 
 ```r
-comparison_index = (traffic_reduction_percent - min(traffic_reduction_percent)) / 
+comparison_index = (traffic_reduction_percent - min(traffic_reduction_percent)) /
                    (max(traffic_reduction_percent) - min(traffic_reduction_percent))
 ```
 
-5. Saved the **cleaned and transformed dataset** as `cleaned_dataset.csv`.
+5. Saved the cleaned and transformed dataset as `cleaned_dataset.csv`.
+
+### Step 4: Data Verification
+
+* Ensured that all merged rows matched the expected city-year combinations.
+* Checked for negative or unrealistic values in computed metrics.
+
+---
+
+## Key Insights
+
+* Cities with higher remote work adoption show a **larger reduction in traffic congestion**.
+* Productivity ratio reflects **time saved due to remote work**, showing direct correlation with congestion reduction.
+* Normalized comparison index enables **cross-city evaluation**.
+* Dataset is now **clean, structured, and ready** for Phase 2 exploratory analysis and visualization.
 
 ---
 
@@ -64,15 +113,9 @@ Phase1_Group20/
 
 ## How to Use
 
-1. Place the raw datasets (`traffic_raw.csv` and `remotework_raw.csv`) in the `data/` folder.
-2. Run the R script (`phase1_group20.R`) located in the `scripts/` folder.
-3. The script will produce the `cleaned_dataset.csv` file in the `data/` folder, ready for Phase 2 analysis.
+1. Place raw datasets in `data/`.
+2. Run `phase1_group20.R` from `scripts/`.
+3. `cleaned_dataset.csv` will be generated in `data/` for further analysis.
 
 ---
-
-## Notes
-
-* This dataset is **simulated but realistic**, reflecting expected patterns of traffic reduction and remote work adoption.
-* Phase 2 will focus on **Exploratory Data Analysis (EDA)** and visualization using this cleaned dataset.
-
 
