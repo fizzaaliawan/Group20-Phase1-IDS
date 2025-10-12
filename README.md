@@ -1,6 +1,4 @@
 
-
-```markdown
 # Phase 1 – Remote Work & Urban Traffic Reduction (Group 20)
 
 ## Project Overview
@@ -27,22 +25,31 @@ The project is part of **Phase 1 of the Data Science Lifecycle** and covers **da
 
 ## Data Transformation Steps
 1. **Merged datasets** on `city` and `year`.  
-2. **Traffic Reduction Percentage**:  
-   \[
-   \text{traffic_reduction_percent} = \frac{\text{pre_remote_congestion} - \text{post_remote_congestion}}{\text{pre_remote_congestion}} \times 100
-   \]  
-3. **Productivity Ratio**:  
-   \[
-   \text{productivity_ratio} = \text{remote_work_share} \times \text{avg_commute_time_saved}
-   \]  
-4. **Comparison Index**: Normalized traffic reduction (0–1 scale) for easy cross-city comparison.  
+2. **Traffic Reduction Percentage**:
+```r
+traffic_reduction_percent = ((pre_remote_congestion - post_remote_congestion) / pre_remote_congestion) * 100
+````
+
+3. **Productivity Ratio**:
+
+```r
+productivity_ratio = remote_work_share * avg_commute_time_saved
+```
+
+4. **Comparison Index**: Normalized traffic reduction (0–1 scale):
+
+```r
+comparison_index = (traffic_reduction_percent - min(traffic_reduction_percent)) / 
+                   (max(traffic_reduction_percent) - min(traffic_reduction_percent))
+```
+
 5. Saved the **cleaned and transformed dataset** as `cleaned_dataset.csv`.
 
 ---
 
 ## Folder Structure
-```
 
+```
 Phase1_Group20/
 ├── data/
 │   ├── traffic_raw.csv
@@ -51,23 +58,23 @@ Phase1_Group20/
 ├── scripts/
 │   └── phase1_group20.R
 └── README.md
-
 ```
 
 ---
 
 ## How to Use
-1. Place the raw datasets (`traffic_raw.csv` and `remotework_raw.csv`) in the `data/` folder.  
-2. Run the R script (`phase1_group20.R`) located in the `scripts/` folder.  
+
+1. Place the raw datasets (`traffic_raw.csv` and `remotework_raw.csv`) in the `data/` folder.
+2. Run the R script (`phase1_group20.R`) located in the `scripts/` folder.
 3. The script will produce the `cleaned_dataset.csv` file in the `data/` folder, ready for Phase 2 analysis.
 
 ---
 
 ## Notes
-- This dataset is **simulated but realistic**, reflecting expected patterns of traffic reduction and remote work adoption.  
-- Phase 2 will focus on **Exploratory Data Analysis (EDA)** and visualization using this cleaned dataset.
-```
 
----
+* This dataset is **simulated but realistic**, reflecting expected patterns of traffic reduction and remote work adoption.
+* Phase 2 will focus on **Exploratory Data Analysis (EDA)** and visualization using this cleaned dataset.
+
+```
 
 
