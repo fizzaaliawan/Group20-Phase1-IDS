@@ -52,7 +52,11 @@ The project combines **real-time traffic data** and **remote work statistics** t
 * In the given assignment, the **National Remote Work Surveys** was mentioned as the second data source.
 * However, since **its API was not available**, the group used an **alternative website providing public datasets and APIs**.
 * The **OECD “Going Digital Toolkit” dataset** was selected as it includes global data on **remote work trends**.
-* The dataset was merged, cleaned, and standardized for analysis.
+*Columns renamed:
+    *LOCATION → country
+    *TIME → year
+    *Value → remote_work_share
+* All Excel files was merged, cleaned, and standardized for analysis.
 
 ---
 
