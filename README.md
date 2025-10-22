@@ -2,129 +2,175 @@
 
 # 🚦 Phase 1 – Remote Work & Urban Traffic Reduction (Group 20)
 
-This project investigates how **remote work adoption impacts urban traffic congestion** in major Pakistani cities. The goal of Phase 1 is to create a **clean, structured dataset** for analysis and visualization in Phase 2.
+
+This project analyzes the impact of remote work on urban traffic congestion using live data from the TomTom Traffic API and OECD Remote Work datasets.
+It demonstrates real-world data cleaning, transformation, and visualization techniques in Python.
+
 
 ---
 
-## 📝 Project Details
+📁 Project Overview
 
-| Attribute    | Description                                                                              |
-| ------------ | ---------------------------------------------------------------------------------------- |
-| **Language** | Python                                                                                   |
-| **Datasets** | `traffic_raw.csv`, `remotework_raw.csv`                                                  |
-| **Goal**     | Understand remote work’s influence on traffic reduction and productivity in urban cities |
+The purpose of this project is to explore how increased remote work trends contribute to reduced city traffic congestion.
+The project integrates live traffic data and OECD remote work statistics to:
 
-*Data is simulated based on TomTom Traffic Index and national remote work surveys.*
+Fetch real-time traffic flow data from TomTom API
 
----
+Clean, merge, and transform multiple datasets
 
-## 🗃 Dataset Overview
+Calculate key comparative metrics
 
-**Traffic Dataset (`traffic_raw.csv`):**
+Visualize traffic and remote work trends
 
-| Column                 | Description                               |
-| ---------------------- | ----------------------------------------- |
-| city                   | City name                                 |
-| year                   | Year of observation                       |
-| pre_remote_congestion  | Traffic congestion before remote work (%) |
-| post_remote_congestion | Traffic congestion after remote work (%)  |
-| congestion_index       | Overall congestion measure                |
 
-**Remote Work Dataset (`remotework_raw.csv`):**
-
-| Column                 | Description                              |
-| ---------------------- | ---------------------------------------- |
-| city                   | City name                                |
-| year                   | Year of observation                      |
-| remote_work_share      | Percentage of workforce working remotely |
-| avg_commute_time_saved | Average commute time saved (minutes)     |
 
 ---
 
-## ⚙️ Workflow Steps
+🧩 Technologies Used
 
-```
-Raw Datasets
-   │
-   ▼
-Data Importing (pandas.read_csv)
-   │
-   ▼
-Data Cleaning
-   • Handle missing values
-   • Remove duplicates
-   │
-   ▼
-Merge Datasets on city & year
-   │
-   ▼
-Transformations
-   • traffic_reduction_percent
-   • productivity_ratio
-   • comparison_index
-   │
-   ▼
-Save Cleaned Dataset → cleaned_dataset.csv
-```
+Library	Purpose
+
+os	File and directory handling
+requests	Fetching live data from APIs
+pandas	Data cleaning, transformation, and CSV handling
+numpy	Numerical operations and metric calculations
+datetime	Handling timestamps for logs and saved files
+matplotlib.pyplot	Data visualization and chart generation
+
+
 
 ---
 
-## 🔢 Transformations
+🧠 Steps Performed
 
-```python
-# Traffic Reduction %
-traffic_reduction_percent = ((pre_remote_congestion - post_remote_congestion) / pre_remote_congestion) * 100
+STEP 1 – Fetch LIVE Traffic Data from TomTom API
 
-# Productivity Ratio
-productivity_ratio = remote_work_share * avg_commute_time_saved
+API used:
+https://api.tomtom.com/traffic/services/4/flowSegmentData/relative0/10/json
 
-# Comparison Index (0-1)
-comparison_index = (traffic_reduction_percent - traffic_reduction_percent.min()) / \
-                   (traffic_reduction_percent.max() - traffic_reduction_percent.min())
-```
+Fetches traffic data for six cities: Mumbai, Delhi, Singapore, Dubai, Kuala Lumpur, Riyadh
 
----
+Extracts attributes like:
 
-## 📊 Key Metrics
+currentSpeed
 
-| Metric              | Min  | Max   |
-| ------------------- | ---- | ----- |
-| Traffic Reduction % | 5.0  | 31.25 |
-| Productivity Ratio  | 0.02 | 6.3   |
-| Comparison Index    | 0.0  | 1.0   |
+freeFlowSpeed
 
-**Insights:**
+confidence
 
-* Cities with higher remote work adoption show **larger traffic reductions**.
-* Productivity ratio quantifies **time saved due to remote work**.
-* Comparison index allows **cross-city evaluation**.
+timestamp
+
+
+Saves results in a CSV file
+→ traffic_raw_<timestamp>.csv
+
+
 
 ---
 
-## 📂 Folder Structure
+STEP 2 – Load Remote Work Dataset (OECD)
 
-```
-Phase1_Group20/
-├── data/
-│   ├── traffic_raw.csv
-│   ├── remotework_raw.csv
-│   └── cleaned_dataset.csv
-├── scripts/
-│   └── codefile.py
-└── README.md
-```
+Loads all .xlsx files from the OECD dataset folder.
+
+Merges them into a single DataFrame.
+
+Renames columns:
+
+LOCATION → country
+
+TIME → year
+
+Value → remote_work_share
+
+
+Cleans and saves the dataset as
+→ remote_cleaned_<timestamp>.csv
+
+
 
 ---
 
-## ▶️ How to Run
+STEP 3 – Final Cleaning
 
-1. Place raw datasets in the `data/` folder.
-2. Navigate to the `scripts/` folder:
+Converts numeric columns for consistency.
 
-```bash
-cd "C:\Users\Hp\Desktop\Phase1-Grp20\scripts"
-python codefile.py
-```
+Removes duplicates and null values.
 
-3. The **cleaned dataset** will be generated in `data/` for Phase 2 analysis.
+Ensures clean column names (lowercase and underscores).
+
+Stores cleaned versions of both datasets.
+
+
+
+---
+
+PHASE 2 – Data Transformation
+
+Aggregates average current speed and free flow speed by city.
+
+Computes average remote work share per year.
+
+Merges transformed summaries into a single dataset for comparison.
+
+
+
+---
+
+STEP 4 – Key Metrics Calculation
+
+Calculates three key indicators:
+
+Metric	Description
+
+Traffic Reduction Percentage	% decrease in average speed due to congestion
+Productivity Ratio	Estimated increase in productivity from remote work
+Comparison Index	Scaled indicator comparing both effects (0–1 scale)
+
+
+Output file:
+→ final_metrics_<timestamp>.csv
+
+
+---
+
+STEP 5 – Visualization
+
+Two visualizations are generated and saved in the output folder:
+
+1. Bar Chart: Average Traffic Speed per City
+
+Compares currentSpeed vs freeFlowSpeed
+
+
+
+2. Line Graph: Remote Work Share Over Years
+
+Shows remote work growth trend
+
+
+
+
+Output images:
+
+traffic_speed_chart_<timestamp>.png
+
+remote_work_chart_<timestamp>.png
+
+
+
+---
+
+
+💡 Key Insights
+
+Cities with higher remote work adoption show less traffic congestion.
+
+Average productivity correlates positively with remote work share.
+
+The Comparison Index helps visualize balance between reduced congestion and increased work efficiency.
+
+
+---
+
+
 
