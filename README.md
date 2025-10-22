@@ -2,7 +2,6 @@
 
 # 🚦 Phase 1 – Remote Work & Urban Traffic Reduction (Group 20)
 
-
 This project analyzes the impact of remote work on urban traffic congestion using live data from the TomTom Traffic API and OECD Remote Work datasets.
 It demonstrates real-world data cleaning, transformation, and visualization techniques in Python.
 
@@ -135,7 +134,7 @@ Output file:
 
 STEP 5 – Visualization
 
-Two visualizations are generated and saved in the output folder:
+Two visualizations are generated and saved:
 
 1. Bar Chart: Average Traffic Speed per City
 
@@ -160,7 +159,6 @@ remote_work_chart_<timestamp>.png
 
 ---
 
-
 💡 Key Insights
 
 Cities with higher remote work adoption show less traffic congestion.
@@ -168,6 +166,7 @@ Cities with higher remote work adoption show less traffic congestion.
 Average productivity correlates positively with remote work share.
 
 The Comparison Index helps visualize balance between reduced congestion and increased work efficiency.
+
 
 
 ---
